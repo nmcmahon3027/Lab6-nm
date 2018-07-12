@@ -29,6 +29,7 @@ public interface SimpleQueue<E> {
    */
   E peek();
 
+
   /**
    * Returns the object at the front of the queue and removes it.
    *
@@ -61,4 +62,5 @@ public interface SimpleQueue<E> {
    * @return The list containing the items in the queue
    */
   List<E> asList();
+
 }

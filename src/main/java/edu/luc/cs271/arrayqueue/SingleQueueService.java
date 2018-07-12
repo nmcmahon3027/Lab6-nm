@@ -2,10 +2,14 @@ package edu.luc.cs271.arrayqueue;
 
 import java.util.Scanner;
 
-public class SingleQueueService {
+public class SingleQueueService extends FixedArrayQueue  {//extends FAQ added
 
   /** Service time per customer in ms. */
-  static final int SERVICE_TIME = 2000;
+  static final int SERVICE_TIME = 7000;//was 2000
+
+  public SingleQueueService(int initCapacity) {
+    super(initCapacity);
+  }
 
   public static void main(final String[] args) throws InterruptedException {
     // TODO read successive input lines until EOF and try to add them to the queue
@@ -22,13 +26,19 @@ public class SingleQueueService {
             () -> {
               while (true) {
                 String current;
-		int remaining;
+		int remaining = 0;
                 synchronized (lock) {
                   current = null; // TODO try to take next name from queue
-		  remaining = 0; // TODO determine resulting size of queue
+
+		  remaining++; // TODO determine resulting size of queue
+                  queue.peek(); //ME
+                  System.out.println(remaining);//added
+
                 }
                 if (current == null) {
                   System.out.println("no one waiting");
+                  System.out.println(current + " is being served, " + remaining + " still waiting");
+
                 } else {
                   System.out.println(current + " is being served, " + remaining + " still waiting");
                 }
@@ -46,13 +56,24 @@ public class SingleQueueService {
     final Scanner input = new Scanner(System.in);
     System.out.print("enter next customer: ");
     while (input.hasNextLine()) {
-      final String name = input.nextLine();
+       String name = input.nextLine();//was final string
+
       boolean result;
       synchronized (lock) {
         result = false; // TODO try to add this name tothe queue
+       queue.offer(name);//ME
+       // System.out.print(queue.asList());//ME
+
+
+       //list.add(item)
       }
-      if (result) {
-        System.out.println(name + " has joined the queue");
+      if (input.hasNext()) {//if (result)
+        System.out.println(name + " you joined the queue");//has
+
+
+        queue.offer(name);
+        
+
       } else {
         System.out.println("queue full, " + name + " unable to join");
       }
